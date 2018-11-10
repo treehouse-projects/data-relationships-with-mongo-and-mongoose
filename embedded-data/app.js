@@ -14,24 +14,29 @@ connection.once('open', () => {
   console.log('DB connection successful');
 
   Movie.create({
-    title: 'Toy Story',
-    yearRelease: 1995,
-    director: {
-      firstName: 'John',
-      lastName: 'Lasseter',
-    },
-    actors: [
-      {
-        firstName: 'Tom',
-        lastName: 'Hanks',
+      title: 'Toy Story',
+      yearRelease: 1995,
+      director: {
+        firstName: 'John',
+        lastName: 'Lasseter',
       },
-      {
-        firstName: 'Tim',
-        lastName: 'Allen',
-      },
-    ],
-  }).then(() => {
-    console.log('Movie created!');
-    process.exit();
-  });
+      actors: [
+        {
+          firstName: 'Tom',
+          lastName: 'Hanks',
+        },
+        {
+          firstName: 'Tim',
+          lastName: 'Allen',
+        },
+      ],
+    })
+    .then(() => {
+      console.log('Movie created!');
+      return Movie.find().exec();
+    })
+    .then((data) => {
+      console.log(JSON.stringify(data, null, 2));
+      process.exit();
+    });
 });

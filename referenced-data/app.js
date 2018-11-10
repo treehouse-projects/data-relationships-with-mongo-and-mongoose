@@ -28,18 +28,28 @@ connection.once('open', () => {
     lastName: 'Allen',
   });
 
-  Promise.all([johnLasseter, tomHanks, timAllen]).then((values) => {
-    Movie.create({
-      title: 'Toy Story',
-      yearRelease: 1995,
-      director: values[0]._id,
-      actors: [
-        values[1]._id,
-        values[2]._id,
-      ],
-    }).then(() => {
+  Promise.all([johnLasseter, tomHanks, timAllen])
+    .then((values) => {
+      return Movie.create({
+        title: 'Toy Story',
+        yearRelease: 1995,
+        director: values[0]._id,
+        actors: [
+          values[1]._id,
+          values[2]._id,
+        ],
+      });
+    })
+    .then(() => {
       console.log('Movie created!');
+      return Movie
+        .find()
+        .populate('director')
+        .populate('actors')
+        .exec();
+    })
+    .then((data) => {
+      console.log(JSON.stringify(data, null, 2));
       process.exit();
     });
-  });
 });
