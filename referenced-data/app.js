@@ -13,35 +13,57 @@ connection.on('error', console.error.bind(console, 'Connection error:'));
 connection.once('open', () => {
   console.log('DB connection successful');
 
-  const johnLasseter = Person.create({
-    firstName: 'John',
-    lastName: 'Lasseter',
+  const bradBird = Person.create({
+    firstName: 'Brad',
+    lastName: 'Bird',
   });
 
-  const tomHanks = Person.create({
-    firstName: 'Tom',
-    lastName: 'Hanks',
+  const vinDiesel = Person.create({
+    firstName: 'Vin',
+    lastName: 'Diesel',
   });
 
-  const timAllen = Person.create({
-    firstName: 'Tim',
-    lastName: 'Allen',
+  const eliMarienthal = Person.create({
+    firstName: 'Eli',
+    lastName: 'Marienthal',
   });
 
-  Promise.all([johnLasseter, tomHanks, timAllen])
+  const craigTNelson = Person.create({
+    firstName: 'Craig T.',
+    lastName: 'Nelson',
+  });
+
+  const hollyHunter = Person.create({
+    firstName: 'Holly',
+    lastName: 'Hunter',
+  });
+
+  Promise.all([bradBird, vinDiesel, eliMarienthal, craigTNelson, hollyHunter])
     .then((values) => {
-      return Movie.create({
-        title: 'Toy Story',
-        yearRelease: 1995,
+      const theIronGiant = Movie.create({
+        title: 'The Iron Giant',
+        releaseYear: 1999,
         director: values[0]._id,
         actors: [
           values[1]._id,
           values[2]._id,
         ],
       });
+
+      const theIncredibles = Movie.create({
+        title: 'The Incredibles',
+        releaseYear: 2004,
+        director: values[0]._id,
+        actors: [
+          values[3]._id,
+          values[4]._id,
+        ],
+      });
+
+      return Promise.all([theIronGiant, theIncredibles]);
     })
     .then(() => {
-      console.log('Movie created!');
+      console.log('Movies created!');
       return Movie
         .find()
         .populate('director')

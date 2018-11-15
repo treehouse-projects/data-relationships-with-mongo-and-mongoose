@@ -11,7 +11,7 @@ const PersonSchema = new Schema({
 
 const MovieSchema = new Schema({
   title: String,
-  yearReleased: Number,
+  releaseYear: Number,
   director: { type: Schema.Types.ObjectId, ref: 'Person' },
   actors: [{ type: Schema.Types.ObjectId, ref: 'Person' }],
 });
